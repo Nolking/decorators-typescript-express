@@ -1,4 +1,6 @@
+@classDecorator
 class Boat {
+    @testDecorator
     color: string = 'red';
 
     get formattedColor(): string {
@@ -6,10 +8,29 @@ class Boat {
     }
 
     @logError('sunk in the ocean')
-    pilot(): void {
-        throw new Error();
+    pilot(
+        @parameterDecorator speed: string, 
+        @parameterDecorator gegenrateWake: boolean): void {
+        // throw new Error();
+        if (speed === 'fast') {
+            console.log('swish');
+        } else {
+            console.log('nothing');
+        }
         // console.log('swish');
     }
+}
+
+function classDecorator( constructor: typeof Boat) {
+    console.log(constructor)
+}
+function parameterDecorator(target: Boat, key: string, index: number ) {
+    console.log(key, index);
+}
+
+function testDecorator(target: any, key: string): void {
+    console.log('Target: ', target);
+    console.log('Key: ', key);
 }
 
 function logError(errorMessage: string) {
@@ -26,4 +47,4 @@ function logError(errorMessage: string) {
     }
 }
 
-new Boat().pilot()
+// new Boat().pilot()s
